@@ -1,8 +1,12 @@
 @extends('layouts.template')
 
+@section('page-title')
+    Dashboard
+@endsection
+
 @section('content')
 {{-- konten yang menampilkan sesuai dengan frame di template --}}
-{{-- card --}}
+{{-- card --}} 
 <div class="row">
     <div class="col-lg-3 col-6">
         <!-- small box -->
