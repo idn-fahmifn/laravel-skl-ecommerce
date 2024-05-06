@@ -64,7 +64,16 @@
             <i class="fas fa-users mr-2"></i> Pengaturan
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer text-danger">Logout</a>
+
+          {{-- laravel UI --}}
+          <a href="{{ route('logout') }}" class="dropdown-item dropdown-footer text-danger" 
+          onclick="event.preventDefault();
+                   document.getElementById('logout-form').submit();">
+            Logout
+            <form action="{{route('logout')}}" method="post" id="logout-form">
+              @csrf 
+            </form>
+          </a>
         </div>
       </li>
       <li class="nav-item">

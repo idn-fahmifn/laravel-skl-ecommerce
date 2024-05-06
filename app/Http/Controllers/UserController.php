@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -36,9 +36,13 @@ class UserController extends Controller
             'name' => 'required|max:128|string',
             'level' => 'required',
             'email' => 'required|email|max:50|string|unique:users',
-            'password' => 'required|min:8|max:30|confirm'
+            'password' => 'required|min:8|max:30'
         ]);
-        User::create($input);
+        if($validasi->fails())
+        {
+            return back()->withErrors($validasi)->withInput();
+        }
+        User::create($input)->with('success', 'Data berhasil ditambahkan'); 
         return back();
     }
 
@@ -50,7 +54,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('user.detail', compact('user'));
     }
 
     /**

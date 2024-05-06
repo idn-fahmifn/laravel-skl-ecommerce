@@ -5,6 +5,20 @@ Halaman Data User
 @endsection
 
 @section('content')
+
+{{-- ketika ada error --}}
+@if($errors->any())
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h5><i class="icon fas fa-ban"></i> Sorry, Error</h5>
+    <ul>
+        @foreach($errors->all() as $error)
+        <li>{{$error}}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -70,7 +84,7 @@ Halaman Data User
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div> 
+            </div>
             <form action="{{route('penjual.store')}}" method="post">
                 @csrf
                 <div class="modal-body">
@@ -85,7 +99,8 @@ Halaman Data User
                     </div>
                     <div class="form-group">
                         <label>Katasandi</label>
-                        <input type="password" name="password" required class="form-control" placeholder="Minimal 8 karakter, A-Z, a-z dan simbol">
+                        <input type="password" name="password" required class="form-control"
+                            placeholder="Minimal 8 karakter, A-Z, a-z dan simbol">
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -93,7 +108,7 @@ Halaman Data User
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
-            
+
         </div>
     </div>
 </div>
