@@ -70,14 +70,65 @@ Dashboard
 </div>
 @else
 {{-- kondisi jika profile belum diisi --}}
-@if(!$data_profile)
-<div class="alert alert-warning alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <h3> Hallo, <b>{{Auth::user()->name}}</b></h3>
-    <p>Anda belum melengkapi profile, silakan lengkapi profile. klik tombol dibawah</p>
-    <p><a href="#" class="btn btn-info">Lengkapi Profile</a></p>
-</div>
-@endif
+    @if(!$data_profile)
+    <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h3> Hallo, <b>{{Auth::user()->name}}</b></h3>
+        <p>Anda belum melengkapi profile, silakan lengkapi profile. klik tombol dibawah</p>
+        <p>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-profile-xl">
+                Tambah Data
+            </button>
+        </p>
+    </div>
+
+    {{-- Modal Profile --}}
+    <div class="modal fade" id="modal-profile-xl">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tambah Data User (Penjual)</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('penjual.store')}}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Nomor Handphone</label>
+                            <input type="number" name="nomor_hp" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Lahir</label>
+                            <input type="date" name="tgl_lahir" required class="form-control">
+                            <input type="text" name="id_user" hidden value="{{Auth::user()->id}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Kelamin</label>
+                            <select name="jenis_kelamin" class="form-control">
+                                <option value="laki-laki">Laki - laki</option>
+                                <option value="perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Poto Profile</label>
+                            <input type="file" name="foto_profile" id="" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat</label>
+                            <textarea name="alamat" class="form-control" cols="10" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endif
 @endif
 
 @endsection
