@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $user = User::all();
@@ -42,6 +43,9 @@ class UserController extends Controller
         {
             return back()->withErrors($validasi)->withInput();
         }
+
+        $input['password'] = bcrypt($input['password']);
+
         User::create($input)->with('success', 'Data berhasil ditambahkan'); 
         return back();
     }
@@ -69,16 +73,32 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $data = $request->all();
+
+        $validasi = Validator::make($data,[
+            'name' => 'required|max:128|string',
+            'level' => 'required',
+            'email' => 'required|email|max:50|string',
+        ]);
+        if($validasi->fails())
+        {
+            return back()->withErrors($validasi)->withInput();
+        }
+
+        if($request->input('password'))
+        {
+            $data['password'] = bcrypt($data['password']);
+        }
+        else{
+            $data = Arr::except($data, ['password']);
+        } 
+
+        $user->update($data);
+        return redirect('/penjual');
     }
 
     /**
@@ -89,6 +109,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+        $data = User::find($id);
+        $data->delete();
+        return back();
+    }  
 }

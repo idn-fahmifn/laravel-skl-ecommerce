@@ -50,14 +50,14 @@ Halaman Data User
                             <td>{{$item->name}}</td>
                             <td>{{$item->email}}</td>
                             <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-outline-info dropdown-toggle dropdown-icon"
-                                        data-toggle="dropdown"> Pilihan
-                                        <div class="dropdown-menu" role="menu">
-                                            <a class="dropdown-item" href="#">Detail</a>
-                                            <a class="dropdown-item" href="#">Hapus</a>
-                                        </div>
-                                    </button>
+                                <a href="#" class="btn btn-outline-success" data-toggle="dropdown"> Pilihan  </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a class="dropdown-item" href="{{route('penjual.show', $item->id)}}">Detail</a>
+                                    <form action="{{route('penjual.destroy', $item->id)}}" method="post">
+                                        @csrf 
+                                        {{method_field('DELETE')}}
+                                        <button type="submit" class="dropdown-item" onclick="return confirm('Hapus data?')">Hapus</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
